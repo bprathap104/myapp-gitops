@@ -22,11 +22,6 @@ resources:
 externalSecrets:
   database:
     remoteKey: myapp/database
-  apiKeys:
-    keys:
-      stripe: /myapp/stripe/api-key
-      sendgrid: /myapp/sendgrid/api-key
-      jwt: /myapp/jwt/secret
 
 env:
   static:
@@ -58,11 +53,6 @@ resources:
 externalSecrets:
   database:
     remoteKey: myapp-staging/database
-  apiKeys:
-    keys:
-      stripe: /myapp-staging/stripe/api-key
-      sendgrid: /myapp-staging/sendgrid/api-key
-      jwt: /myapp-staging/jwt/secret
 
 env:
   static:
@@ -100,11 +90,6 @@ autoscaling:
 externalSecrets:
   database:
     remoteKey: myapp-prod/database
-  apiKeys:
-    keys:
-      stripe: /myapp-prod/stripe/api-key
-      sendgrid: /myapp-prod/sendgrid/api-key
-      jwt: /myapp-prod/jwt/secret
 
 env:
   static:

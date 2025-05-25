@@ -57,10 +57,6 @@ externalSecrets:
     enabled: true
     secretName: api-keys-secret
     refreshInterval: 60s
-    keys:
-      stripe: /myapp/stripe/api-key
-      sendgrid: /myapp/sendgrid/api-key
-      jwt: /myapp/jwt/secret
 
 # Environment variables
 env:
@@ -80,15 +76,6 @@ env:
     - name: DATABASE_URL
       secretName: database-secret
       key: DATABASE_URL
-    - name: STRIPE_API_KEY
-      secretName: api-keys-secret
-      key: STRIPE_API_KEY
-    - name: SENDGRID_API_KEY
-      secretName: api-keys-secret
-      key: SENDGRID_API_KEY
-    - name: JWT_SECRET
-      secretName: api-keys-secret
-      key: JWT_SECRET
 
 # Resource limits and requests
 resources:

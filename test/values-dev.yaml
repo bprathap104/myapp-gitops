@@ -21,14 +21,8 @@ resources:
 externalSecrets:
   database:
     remoteKey: myapp/database
-  apiKeys:
-    keys:
-      stripe: /myapp/stripe/api-key
-      sendgrid: /myapp/sendgrid/api-key
-      jwt: /myapp/jwt/secret
 
 env:
   static:
     NODE_ENV: development
     LOG_LEVEL: debug
-
