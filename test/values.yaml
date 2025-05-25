@@ -29,7 +29,7 @@ deployment:
 service:
   type: LoadBalancer
   port: 80
-  targetPort: 8080
+  targetPort: 80
   
 # External Secrets configuration
 externalSecrets:
@@ -52,12 +52,6 @@ externalSecrets:
     remoteKey: myapp/database
     refreshInterval: 30s
     
-  # API Keys
-  apiKeys:
-    enabled: true
-    secretName: api-keys-secret
-    refreshInterval: 60s
-
 # Environment variables
 env:
   # Static environment variables
@@ -91,14 +85,14 @@ healthChecks:
   enabled: true
   livenessProbe:
     httpGet:
-      path: /health
-      port: 80
+      path: /
+      port: 8080
     initialDelaySeconds: 30
     periodSeconds: 10
   readinessProbe:
     httpGet:
-      path: /ready
-      port: 80
+      path: /
+      port: 8080
     initialDelaySeconds: 5
     periodSeconds: 5
 
