@@ -64,6 +64,12 @@ spec:
         resources:
           {{- toYaml . | nindent 10 }}
         {{- end }}
+        volumeMounts:
+        - name: nginx-client-temp
+          mountPath: /var/cache/nginx/client_temp
+      volumes:
+      - name: nginx-client-temp
+        emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
