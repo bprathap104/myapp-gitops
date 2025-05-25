@@ -9,4 +9,8 @@
   export SERVICE_IP=$(kubectl get svc --namespace {{ include "myapp.namespace" . }} {{ include "myapp.fullname" . }} --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
   echo http://$SERVICE_IP:{{ .Values.service.port }}
 {{- else if contains "ClusterIP" .Values.service.type }}
-  export POD_NAME=$(kubectl get pods --namespace {{ include "myapp.namespace" . }} -l "app.kubernetes.io/name={{ include "myapp.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o)
+  export POD_NAME=$(kubectl get pods --namespace {{ include "myapp.namespace" . }} -l "app.kubernetes.io/name={{ include "myapp.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod $POD_NAME --namespace {{ include "myapp.namespace" . }} -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to access the application"
+  kubectl port-forward $POD_NAME 8080:$CONTAINER_PORT --namespace {{ include "myapp.namespace" . }}
+{{- end }}
