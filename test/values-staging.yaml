@@ -5,7 +5,7 @@ deployment:
   replicaCount: 2
 
 image:
-  tag: "staging-latest"
+  tag: "latest"
 
 service:
   type: ClusterIP

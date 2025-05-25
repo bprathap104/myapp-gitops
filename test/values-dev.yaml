@@ -5,7 +5,7 @@ deployment:
   replicaCount: 1
 
 image:
-  tag: "dev-latest"
+  tag: "latest"
 
 service:
   type: ClusterIP
