@@ -20,12 +20,12 @@ resources:
 
 externalSecrets:
   database:
-    remoteKey: myapp-dev/database
+    remoteKey: myapp/database
   apiKeys:
     keys:
-      stripe: /myapp-dev/stripe/api-key
-      sendgrid: /myapp-dev/sendgrid/api-key
-      jwt: /myapp-dev/jwt/secret
+      stripe: /myapp/stripe/api-key
+      sendgrid: /myapp/sendgrid/api-key
+      jwt: /myapp/jwt/secret
 
 env:
   static:
