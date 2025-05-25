@@ -22,3 +22,19 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/name: {{ include "myapp.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
+
+{{- define "myapp.staticEnvVars" -}}
+{{- if .Values.staticEnvVars }}
+{{- toYaml .Values.staticEnvVars | nindent 0 }}
+{{- else }}
+{{- "" }}
+{{- end }}
+{{- end }}
+
+{{- define "myapp.secretEnvVars" -}}
+{{- if .Values.secretEnvVars }}
+{{- toYaml .Values.secretEnvVars | nindent 0 }}
+{{- else }}
+{{- "" }}
+{{- end }}
+{{- end }}
