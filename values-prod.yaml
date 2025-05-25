@@ -1,0 +1,54 @@
+global:
+  environment: production
+
+deployment:
+  replicaCount: 3
+
+image:
+  tag: "v1.0.0"
+
+service:
+  type: LoadBalancer
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+externalSecrets:
+  database:
+    remoteKey: myapp-prod/database
+  apiKeys:
+    keys:
+      stripe: /myapp-prod/stripe/api-key
+      sendgrid: /myapp-prod/sendgrid/api-key
+      jwt: /myapp-prod/jwt/secret
+
+env:
+  static:
+    NODE_ENV: production
+    LOG_LEVEL: warn
+
+healthChecks:
+  enabled: true
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 80
+    initialDelaySeconds: 60
+    periodSeconds: 30
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 80
+    initialDelaySeconds: 10
+    periodSeconds: 10

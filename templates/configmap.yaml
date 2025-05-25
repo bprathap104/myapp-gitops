@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "myapp.fullname" . }}-config
+  namespace: {{ include "myapp.namespace" . }}
+  labels:
+    {{- include "myapp.labels" . | nindent 4 }}
+data:
+  app.properties: |
+    # Application configuration
+    app.name={{ include "myapp.name" . }}
+    app.version={{ .Chart.AppVersion }}
+    environment={{ .Values.global.environment }}
+    
+  config.yaml: |
+    application:
+      name: {{ include "myapp.name" . }}
+      version: {{ .Chart.AppVersion }}
+      environment: {{ .Values.global.environment }}
+    
+    logging:
+      level: {{ .Values.env.static.LOG_LEVEL | default "info" }}
+      
+    server:
+      port: {{ .Values.service.targetPort }}

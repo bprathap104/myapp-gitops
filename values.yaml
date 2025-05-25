@@ -1,0 +1,151 @@
+# Default values for myapp
+# This is a YAML-formatted file.
+
+# Global settings
+global:
+  environment: dev
+
+# Application settings
+app:
+  name: myapp
+  version: "1.0.0"
+  
+# Image settings
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+  
+# Deployment settings
+deployment:
+  replicaCount: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  
+# Service settings
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
+  
+# External Secrets configuration
+externalSecrets:
+  enabled: true
+  refreshInterval: 30s
+  
+  # Secret stores configuration
+  secretStores:
+    awsSecretsManager:
+      name: aws-secrets-manager
+      kind: ClusterSecretStore
+    awsParameterStore:
+      name: aws-parameter-store
+      kind: ClusterSecretStore
+  
+  # Database credentials
+  database:
+    enabled: true
+    secretName: database-secret
+    remoteKey: myapp/database
+    refreshInterval: 30s
+    
+  # API Keys
+  apiKeys:
+    enabled: true
+    secretName: api-keys-secret
+    refreshInterval: 60s
+    keys:
+      stripe: /myapp/stripe/api-key
+      sendgrid: /myapp/sendgrid/api-key
+      jwt: /myapp/jwt/secret
+
+# Environment variables
+env:
+  # Static environment variables
+  static:
+    NODE_ENV: production
+    LOG_LEVEL: info
+    
+  # Secret-based environment variables (populated from External Secrets)
+  secrets:
+    - name: DB_USERNAME
+      secretName: database-secret
+      key: DB_USERNAME
+    - name: DB_PASSWORD
+      secretName: database-secret
+      key: DB_PASSWORD
+    - name: DATABASE_URL
+      secretName: database-secret
+      key: DATABASE_URL
+    - name: STRIPE_API_KEY
+      secretName: api-keys-secret
+      key: STRIPE_API_KEY
+    - name: SENDGRID_API_KEY
+      secretName: api-keys-secret
+      key: SENDGRID_API_KEY
+    - name: JWT_SECRET
+      secretName: api-keys-secret
+      key: JWT_SECRET
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# Health checks
+healthChecks:
+  enabled: true
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 80
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+# Autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# Pod security context
+podSecurityContext:
+  fsGroup: 2000
+
+# Security context
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+# Node selector, tolerations, and affinity
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Annotations and labels
+annotations: {}
+labels: {}
+
+# Namespace
+namespace:
+  create: true
+  name: myapp

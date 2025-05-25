@@ -1,0 +1,16 @@
+apiVersion: v2
+name: myapp
+description: A Helm chart for MyApp with External Secrets integration
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - webapp
+  - external-secrets
+  - database
+maintainers:
+  - name: Your Name
+    email: your.email@company.com
+dependencies: []
+annotations:
+  category: Application
